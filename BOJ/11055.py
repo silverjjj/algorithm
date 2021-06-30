@@ -1,19 +1,20 @@
-N = int(input())
-nums = list(map(int,input().split()))
-maxV = max(nums)
-weight = [0] * (maxV + 1)
-dist = [0] * (maxV + 1)
 
-for num in nums:
-    maxC = max(weight[:num])
-    weight[num] = maxC + 1
-    tmp = 0
-    for i in range(num):
-        if weight[i] == maxC:
-            tmp = i
-    dist[num] = num + dist[tmp]
-maxN = weight.index(max(weight))
-print(dist[maxN])
+def BOJ11055(N, arr):
+    dp = [0]*N
+    dp[0] = arr[0]
+    for i in range(1, N):
+        maxV = 0
+        for j in range(i):
+            if arr[i] > arr[j]:
+                maxV = max(maxV, dp[j])
+        dp[i] = maxV + arr[i]
+
+    return max(dp)
+
+N = int(input())
+arr = list(map(int,input().split()))
+print(BOJ11055(N, arr))
+
 '''
 
 5
@@ -24,4 +25,11 @@ print(dist[maxN])
 3 10 2 7 11 5 13 8
 37
 
+10
+102 100 2 3 4 3 5 6 7 8
+102
+
+5
+5 1 2 3 10
+16
 '''
