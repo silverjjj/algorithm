@@ -31,20 +31,27 @@ def solution(info, query):
                 dict[case] = [int(e)]
             else:
                 dict[case].append(int(e))
-    print(dict)
-    for line in query:
-        a,b,c,d = line.split(" and ")
-        d, e = d.split(" ")
-        cnt = 0
-        e = int(e)
-        case = str(a) + str(b) + str(c) + str(d)
-        if case in dict.keys():
-            for num in dict[case]:
-                if num >= e:
-                    cnt += 1
 
-        ans.append(cnt)
-    print(ans)
+    for val in dict.values():
+        val.sort()
+
+    for line in query:
+        qry = [i for i in line.split() if i != 'and']
+        qry_cnd = ''.join(qry[:-1])
+        score = int(qry[-1])
+        if qry_cnd in dict:
+            data = dict[qry_cnd]
+            if len(data) > 0:
+                st, end = 0, len(data)
+                while st != end and st != len(data):
+                    mid = (st + end) // 2
+                    if data[mid] >= score:
+                        end = mid
+                    else:
+                        st = mid + 1
+                ans.append(len(data)-st)
+        else:
+            ans.append(0)
     return ans
 
 info = ["java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"]
